@@ -1,0 +1,12 @@
+FROM node:24-alpine
+
+RUN apk add --no-cache coreutils
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci --ignore-scripts
+
+COPY . .
+
+CMD ["sh", "-c", "while true; do sh scripts/run-seeders.sh; sleep 1800; done"]
